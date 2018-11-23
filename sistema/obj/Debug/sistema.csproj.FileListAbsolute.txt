@@ -9,4 +9,4 @@ C:\progetti\csharp\sistema\sistema\obj\Debug\sistema.exe
 C:\progetti\csharp\sistema\sistema\obj\Debug\sistema.pdb
 C:\progetti\csharp\sistema\sistema\bin\Debug\ExifLib.dll
 C:\progetti\csharp\sistema\sistema\obj\Debug\sistema.csproj.CopyComplete
-C:\progetti\csharp\sistema\sistema\obj\Debug\sistema.Immagine.resources
+C:\progetti\csharp\sistema\sistema\obj\Debug\sistema.Form2.resources

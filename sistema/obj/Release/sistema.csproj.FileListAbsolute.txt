@@ -2,10 +2,10 @@ C:\progetti\csharp\sistema\sistema\bin\Release\sistema.exe.config
 C:\progetti\csharp\sistema\sistema\bin\Release\sistema.exe
 C:\progetti\csharp\sistema\sistema\bin\Release\sistema.pdb
 C:\progetti\csharp\sistema\sistema\bin\Release\ExifLib.dll
-C:\progetti\csharp\sistema\sistema\obj\Release\sistema.Immagine.resources
 C:\progetti\csharp\sistema\sistema\obj\Release\sistema.Properties.Resources.resources
 C:\progetti\csharp\sistema\sistema\obj\Release\sistema.csproj.GenerateResource.cache
 C:\progetti\csharp\sistema\sistema\obj\Release\sistema.csproj.CoreCompileInputs.cache
 C:\progetti\csharp\sistema\sistema\obj\Release\sistema.csproj.CopyComplete
 C:\progetti\csharp\sistema\sistema\obj\Release\sistema.exe
 C:\progetti\csharp\sistema\sistema\obj\Release\sistema.pdb
+C:\progetti\csharp\sistema\sistema\obj\Release\sistema.Form2.resources
