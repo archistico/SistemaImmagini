@@ -42,25 +42,75 @@ namespace sistema
         {
             List<Immagine> lista = new List<Immagine>();
 
-            string[] allfiles = Directory.GetFiles(Environment.CurrentDirectory, "*.jpg", SearchOption.AllDirectories);
+            string[] alljpg = Directory.GetFiles(Environment.CurrentDirectory, "*.jpg", SearchOption.AllDirectories);
+            string[] allpng = Directory.GetFiles(Environment.CurrentDirectory, "*.png", SearchOption.AllDirectories);
+            string[] allfiles = alljpg.Concat(allpng).ToArray();
+
             foreach (var file in allfiles)
             {
-                using (ExifReader reader = new ExifReader(file))
+                Console.WriteLine(file);
+                string ext = Path.GetExtension(file);
+
+                if(ext == "jpg")
+                {
+                    using (ExifReader reader = new ExifReader(file))
+                    {
+                        DateTime datePictureTaken;
+
+                        if (reader.GetTagValue<DateTime>(ExifTags.DateTimeDigitized, out datePictureTaken))
+                        {
+                            string dataFile = datePictureTaken.ToString("yyyy-MM-dd");
+                            string targetPath = Path.Combine(Environment.CurrentDirectory, dataFile);
+
+                            string fileName = Path.GetFileName(file);
+                            string destFile = Path.Combine(targetPath, fileName);
+
+                            Immagine im = new Immagine(file, destFile, targetPath);
+                            lista.Add(im);
+                        }
+                        else
+                        {
+                            DateTime dataCreazione = File.GetCreationTime(file);
+                            DateTime dataUltimaModifica = File.GetLastWriteTime(file);
+
+                            int result = DateTime.Compare(dataCreazione, dataUltimaModifica);
+                            if (result < 0)
+                                datePictureTaken = dataCreazione;
+                            else
+                                datePictureTaken = dataUltimaModifica;
+
+                            string dataFile = datePictureTaken.ToString("yyyy-MM-dd");
+                            string targetPath = Path.Combine(Environment.CurrentDirectory, dataFile);
+
+                            string fileName = Path.GetFileName(file);
+                            string destFile = Path.Combine(targetPath, fileName);
+
+                            Immagine im = new Immagine(file, destFile, targetPath);
+                            lista.Add(im);
+                        }
+                    }
+                } else
                 {
                     DateTime datePictureTaken;
-                    if (reader.GetTagValue<DateTime>(ExifTags.DateTimeDigitized, out datePictureTaken))
-                    {
-                        string dataFile = datePictureTaken.ToString("yyyyMMdd");
-                        string targetPath = Path.Combine(Environment.CurrentDirectory, dataFile);
-                        
-                        string fileName = Path.GetFileName(file);
-                        string destFile = Path.Combine(targetPath, fileName);
+                    DateTime dataCreazione = File.GetCreationTime(file);
+                    DateTime dataUltimaModifica = File.GetLastWriteTime(file);
 
-                        Immagine im = new Immagine(file, destFile, targetPath);
-                        lista.Add(im);
-                        
-                    }
+                    int result = DateTime.Compare(dataCreazione, dataUltimaModifica);
+                    if (result < 0)
+                        datePictureTaken = dataCreazione;
+                    else
+                        datePictureTaken = dataUltimaModifica;
+
+                    string dataFile = datePictureTaken.ToString("yyyy-MM-dd");
+                    string targetPath = Path.Combine(Environment.CurrentDirectory, dataFile);
+
+                    string fileName = Path.GetFileName(file);
+                    string destFile = Path.Combine(targetPath, fileName);
+
+                    Immagine im = new Immagine(file, destFile, targetPath);
+                    lista.Add(im);
                 }
+                
             }
 
             foreach (var immagine in lista)
@@ -74,13 +124,17 @@ namespace sistema
 
                     if (File.Exists(immagine.source))
                     {
-                        File.Move(immagine.source, immagine.target);
+                        if(immagine.source != immagine.target)
+                        {
+                            Console.WriteLine("Spostato : " + immagine.source + " to : "+ immagine.target);
+                            File.Move(immagine.source, immagine.target);
+                        }                        
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("The process failed: {0}", ex.ToString());
+                    Console.WriteLine("Processo fallito : {0}", ex.ToString());
                 }
             }
             
